@@ -14,10 +14,16 @@
 
 <div class="flex h-screen overflow-hidden">
     {{-- Sidebar --}}
-    <aside class="w-64 bg-[#2d6a4f] text-white flex-shrink-0 flex flex-col">
-        <div class="p-5 border-b border-green-700">
-            <div class="font-bold text-lg">Admin Panel</div>
-            <div class="text-green-200 text-xs mt-1">Kelurahan Mojo 2</div>
+    <aside id="admin-sidebar"
+           class="fixed inset-y-0 left-0 z-40 w-64 bg-[#2d6a4f] text-white flex flex-col transform -translate-x-full transition-transform duration-300 lg:static lg:translate-x-0 lg:flex-shrink-0">
+        <div class="p-5 border-b border-green-700 flex items-start justify-between">
+            <div>
+                <div class="font-bold text-lg">Admin Panel</div>
+                <div class="text-green-200 text-xs mt-1">Kelurahan Mojo 2</div>
+            </div>
+            <button id="sidebar-close" type="button" class="lg:hidden text-green-200 hover:text-white" aria-label="Tutup menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
 
         <nav class="flex-1 p-4 space-y-1">
@@ -96,11 +102,19 @@
         </div>
     </aside>
 
+    {{-- Overlay (mobile) --}}
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
     {{-- Main content --}}
     <div class="flex-1 flex flex-col overflow-hidden">
-        <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
-            <h1 class="text-lg font-bold text-gray-800">@yield('title', 'Dashboard')</h1>
-            <a href="{{ route('home') }}" target="_blank" class="text-sm text-[#2d6a4f] hover:underline">Lihat Website &rarr;</a>
+        <header class="bg-white shadow-sm px-4 sm:px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-open" type="button" class="lg:hidden text-gray-600 hover:text-gray-900" aria-label="Buka menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="text-lg font-bold text-gray-800">@yield('title', 'Dashboard')</h1>
+            </div>
+            <a href="{{ route('home') }}" target="_blank" class="text-sm text-[#2d6a4f] hover:underline whitespace-nowrap">Lihat Website &rarr;</a>
         </header>
 
         <main class="flex-1 overflow-y-auto p-6">
@@ -120,6 +134,39 @@
     </div>
 </div>
 
+<script>
+(function () {
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const openBtn = document.getElementById('sidebar-open');
+    const closeBtn = document.getElementById('sidebar-close');
+
+    function openSidebar() {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+    }
+    function closeSidebar() {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    }
+
+    openBtn && openBtn.addEventListener('click', openSidebar);
+    closeBtn && closeBtn.addEventListener('click', closeSidebar);
+    overlay && overlay.addEventListener('click', closeSidebar);
+
+    // Tutup sidebar saat menu diklik di layar kecil
+    sidebar.querySelectorAll('nav a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (window.innerWidth < 1024) closeSidebar();
+        });
+    });
+
+    // Reset saat layar diperbesar ke desktop
+    window.addEventListener('resize', function () {
+        if (window.innerWidth >= 1024) overlay.classList.add('hidden');
+    });
+})();
+</script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 @stack('scripts')
 </body>
