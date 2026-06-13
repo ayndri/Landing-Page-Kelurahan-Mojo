@@ -70,7 +70,9 @@
     @endif
     <input type="file" name="foto" accept="image/*"
         onchange="previewImage(this, 'preview-foto-umkm')"
-        class="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700">
+        class="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700 @error('foto') ring-1 ring-red-400 rounded-lg @enderror">
+    <p class="text-xs text-gray-400 mt-1">Format gambar (JPG/PNG), maksimal 5 MB.</p>
+    @error('foto')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
     <img id="preview-foto-umkm" class="hidden mt-2 w-32 h-32 object-cover rounded-lg border border-gray-200" alt="Preview foto baru">
 </div>
 

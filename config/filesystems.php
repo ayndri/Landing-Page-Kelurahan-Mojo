@@ -41,7 +41,9 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            // URL root-relative agar gambar tetap muncul di domain apa pun
+            // (tidak bergantung APP_URL yang kerap salah/lupa di-set saat live).
+            'url' => '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
