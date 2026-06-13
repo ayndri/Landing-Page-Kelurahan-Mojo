@@ -2,7 +2,7 @@
 @section('title', 'Edit Tanaman: '.$plant->nama)
 
 @push('styles')
-<style>#map-picker { height: 350px; border-radius: 12px; overflow: hidden; }</style>
+<style>#map-picker { height: 350px; border-radius: 12px; overflow: hidden; position: relative; z-index: 0; }</style>
 @endpush
 
 @section('content')

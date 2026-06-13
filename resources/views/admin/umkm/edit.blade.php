@@ -3,7 +3,7 @@
 
 @push('styles')
 <style>
-#map-picker { height: 350px; border-radius: 12px; overflow: hidden; }
+#map-picker { height: 350px; border-radius: 12px; overflow: hidden; position: relative; z-index: 0; }
 .prod-edit-form { display: none; }
 .prod-edit-form.open { display: block; }
 </style>
