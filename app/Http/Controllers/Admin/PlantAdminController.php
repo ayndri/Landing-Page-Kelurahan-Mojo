@@ -15,10 +15,10 @@ class PlantAdminController extends Controller
     {
         $user = Auth::user();
         $plants = $user->isSuperAdmin()
-            ? Plant::with('user')->latest()->get()
+            ? Plant::with('user')->latest()->paginate(15)
             : Plant::with('user')
                 ->whereHas('user', fn($q) => $q->where('rw_number', $user->rw_number))
-                ->latest()->get();
+                ->latest()->paginate(15);
 
         return view('admin.tanaman.index', compact('plants'));
     }

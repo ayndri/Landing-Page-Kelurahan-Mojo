@@ -17,7 +17,7 @@ class UserAdminController extends Controller
             ->orderByRaw("CASE WHEN role = 'super_admin' THEN 0 ELSE 1 END")
             ->orderBy('rw_number')
             ->orderBy('name')
-            ->get();
+            ->paginate(20);
         return view('admin.users.index', compact('users'));
     }
 

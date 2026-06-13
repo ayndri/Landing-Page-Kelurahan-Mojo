@@ -12,7 +12,7 @@ class GaleriAdminController extends Controller
 {
     public function index()
     {
-        $galeris = Galeri::orderBy('urutan')->orderByDesc('created_at')->get();
+        $galeris = Galeri::orderBy('urutan')->orderByDesc('created_at')->paginate(12);
         return view('admin.galeri.index', compact('galeris'));
     }
 

@@ -15,10 +15,10 @@ class UmkmAdminController extends Controller
     {
         $user = Auth::user();
         $umkm = $user->isSuperAdmin()
-            ? Umkm::with('user')->latest()->get()
+            ? Umkm::with('user')->latest()->paginate(15)
             : Umkm::with('user')
                 ->whereHas('user', fn($q) => $q->where('rw_number', $user->rw_number))
-                ->latest()->get();
+                ->latest()->paginate(15);
 
         return view('admin.umkm.index', compact('umkm'));
     }

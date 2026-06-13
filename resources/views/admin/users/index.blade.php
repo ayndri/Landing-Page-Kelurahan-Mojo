@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="flex items-center justify-between mb-6">
-    <p class="text-gray-500 text-sm">{{ $users->count() }} pengguna terdaftar</p>
+    <p class="text-gray-500 text-sm">{{ $users->total() }} pengguna terdaftar</p>
     <a href="{{ route('admin.users.create') }}"
        class="bg-[#2d6a4f] text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-[#40916c] transition flex items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -68,4 +68,5 @@
         </tbody>
     </table>
 </div>
+<div class="mt-4">{{ $users->links() }}</div>
 @endsection
