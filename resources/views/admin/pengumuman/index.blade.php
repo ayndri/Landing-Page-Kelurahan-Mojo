@@ -12,8 +12,8 @@
 </div>
 
 @if($pengumumans->count())
-<div class="bg-white rounded-xl shadow overflow-hidden">
-    <table class="w-full text-sm">
+<div class="bg-white rounded-xl shadow overflow-x-auto">
+    <table class="w-full text-sm min-w-[700px]">
         <thead class="bg-gray-50 border-b">
             <tr>
                 <th class="text-left px-5 py-3 text-gray-600 font-medium">Judul</th>

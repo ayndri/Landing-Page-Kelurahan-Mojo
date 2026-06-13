@@ -15,8 +15,8 @@
     @foreach($rts as $rwNum => $rtList)
     <div class="mb-6">
         <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-3">RW {{ $rwNum }}</h3>
-        <div class="bg-white rounded-xl shadow overflow-hidden">
-            <table class="w-full text-sm">
+        <div class="bg-white rounded-xl shadow overflow-x-auto">
+            <table class="w-full text-sm min-w-[700px]">
                 <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
                         <th class="text-left px-5 py-3 font-semibold text-gray-600">RT</th>
