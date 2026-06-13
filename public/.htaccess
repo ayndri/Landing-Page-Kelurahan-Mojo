@@ -23,3 +23,15 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Naikkan batas unggah foto pada server Apache mod_php.
+# Dibungkus IfModule agar TIDAK menyebabkan error 500 di server PHP-FPM/CGI
+# (untuk FPM/CGI, batas diatur lewat public/.user.ini).
+<IfModule mod_php.c>
+    php_value upload_max_filesize 20M
+    php_value post_max_size 25M
+</IfModule>
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 20M
+    php_value post_max_size 25M
+</IfModule>
