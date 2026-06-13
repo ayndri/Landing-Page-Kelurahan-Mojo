@@ -24,7 +24,7 @@ class GaleriAdminController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'foto'      => 'required|image|max:3072',
+            'foto'      => 'required|image|max:10240',
             'judul'     => 'nullable|string|max:255',
             'keterangan'=> 'nullable|string',
             'kategori'  => 'nullable|string|max:100',
@@ -53,7 +53,7 @@ class GaleriAdminController extends Controller
     public function update(Request $request, Galeri $galeri)
     {
         $request->validate([
-            'foto'      => 'nullable|image|max:3072',
+            'foto'      => 'nullable|image|max:10240',
             'judul'     => 'nullable|string|max:255',
             'keterangan'=> 'nullable|string',
             'kategori'  => 'nullable|string|max:100',

@@ -39,7 +39,7 @@ class PlantAdminController extends Controller
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
             'lokasi_keterangan' => 'nullable|string|max:255',
-            'foto' => 'nullable|image|max:5120',
+            'foto' => 'nullable|image|max:10240',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -72,7 +72,7 @@ class PlantAdminController extends Controller
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
             'lokasi_keterangan' => 'nullable|string|max:255',
-            'foto' => 'nullable|image|max:5120',
+            'foto' => 'nullable|image|max:10240',
         ]);
 
         if ($request->hasFile('foto')) {

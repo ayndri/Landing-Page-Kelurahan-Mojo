@@ -12,7 +12,7 @@ class UmkmProductController extends Controller {
             'nama'      => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'harga'     => 'nullable|string|max:100',
-            'foto'      => 'nullable|image|max:5120',
+            'foto'      => 'nullable|image|max:10240',
             'urutan'    => 'nullable|integer',
         ]);
         $validated['umkm_id'] = $umkm->id;
@@ -28,7 +28,7 @@ class UmkmProductController extends Controller {
             'nama'      => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'harga'     => 'nullable|string|max:100',
-            'foto'      => 'nullable|image|max:5120',
+            'foto'      => 'nullable|image|max:10240',
             'urutan'    => 'nullable|integer',
         ]);
         if ($request->hasFile('foto')) {

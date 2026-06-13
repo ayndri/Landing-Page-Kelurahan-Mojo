@@ -43,7 +43,7 @@ class UmkmAdminController extends Controller
             'instagram' => 'nullable|string|max:100',
             'shopee' => 'nullable|string|max:255',
             'jam_buka' => 'nullable|string|max:100',
-            'foto' => 'nullable|image|max:5120',
+            'foto' => 'nullable|image|max:10240',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -81,7 +81,7 @@ class UmkmAdminController extends Controller
             'instagram' => 'nullable|string|max:100',
             'shopee' => 'nullable|string|max:255',
             'jam_buka' => 'nullable|string|max:100',
-            'foto' => 'nullable|image|max:5120',
+            'foto' => 'nullable|image|max:10240',
         ]);
 
         if ($request->hasFile('foto')) {
