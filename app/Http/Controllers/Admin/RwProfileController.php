@@ -37,8 +37,8 @@ class RwProfileController extends Controller
             'no_telepon' => 'nullable|string|max:20',
             'jumlah_kk' => 'nullable|integer|min:0',
             'jumlah_penduduk' => 'nullable|integer|min:0',
-            'foto_ketua' => 'nullable|image|max:2048',
-            'foto_kegiatan' => 'nullable|image|max:2048',
+            'foto_ketua' => 'nullable|image|max:10240',
+            'foto_kegiatan' => 'nullable|image|max:10240',
         ]);
 
         $profile = RwProfile::firstOrNew(['rw_number' => $rwNumber]);
