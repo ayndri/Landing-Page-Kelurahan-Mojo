@@ -2,13 +2,20 @@
 @section('title', 'Kelola Tanaman')
 
 @section('content')
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-wrap items-center justify-between gap-3 mb-6">
     <p class="text-gray-500 text-sm">{{ $plants->total() }} tanaman terdaftar</p>
-    <a href="{{ route('admin.tanaman.create') }}"
-       class="bg-[#2d6a4f] text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-[#40916c] transition flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-        Tambah Tanaman
-    </a>
+    <div class="flex items-center gap-2">
+        <button type="button" id="btn-cetak-barcode" disabled
+                class="bg-white border border-[#2d6a4f] text-[#2d6a4f] text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-[#2d6a4f] hover:text-white transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-[#2d6a4f]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            Cetak Barcode (<span id="barcode-count">0</span>)
+        </button>
+        <a href="{{ route('admin.tanaman.create') }}"
+           class="bg-[#2d6a4f] text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-[#40916c] transition flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Tambah Tanaman
+        </a>
+    </div>
 </div>
 
 @if($plants->count())
@@ -16,6 +23,7 @@
     <table class="w-full text-sm min-w-[700px]">
         <thead class="bg-gray-50 border-b">
             <tr>
+                <th class="px-5 py-3 w-10"><input type="checkbox" id="check-all" class="barcode-check-all w-4 h-4 accent-[#2d6a4f] align-middle"></th>
                 <th class="text-left px-5 py-3 text-gray-600 font-medium">Tanaman</th>
                 <th class="text-left px-5 py-3 text-gray-600 font-medium">Jenis</th>
                 <th class="text-left px-5 py-3 text-gray-600 font-medium">Lokasi</th>
@@ -27,6 +35,7 @@
         <tbody class="divide-y">
             @foreach($plants as $plant)
             <tr class="hover:bg-gray-50">
+                <td class="px-5 py-4"><input type="checkbox" value="{{ $plant->id }}" class="barcode-check w-4 h-4 accent-[#2d6a4f] align-middle"></td>
                 <td class="px-5 py-4">
                     <div class="flex items-center gap-3">
                         @if($plant->foto)
@@ -89,6 +98,39 @@
     </table>
 </div>
 <div class="mt-4">{{ $plants->links() }}</div>
+
+<script>
+(function () {
+    const baseUrl = @json(route('admin.barcode.tanaman'));
+    const btn = document.getElementById('btn-cetak-barcode');
+    const counter = document.getElementById('barcode-count');
+    const checkAll = document.getElementById('check-all');
+    const boxes = () => Array.from(document.querySelectorAll('.barcode-check'));
+
+    function refresh() {
+        const selected = boxes().filter(b => b.checked);
+        counter.textContent = selected.length;
+        btn.disabled = selected.length === 0;
+        if (checkAll) {
+            checkAll.checked = selected.length > 0 && selected.length === boxes().length;
+        }
+    }
+
+    boxes().forEach(b => b.addEventListener('change', refresh));
+    if (checkAll) {
+        checkAll.addEventListener('change', () => {
+            boxes().forEach(b => { b.checked = checkAll.checked; });
+            refresh();
+        });
+    }
+    btn.addEventListener('click', () => {
+        const ids = boxes().filter(b => b.checked).map(b => b.value);
+        if (!ids.length) return;
+        window.open(baseUrl + '?ids=' + ids.join(','), '_blank');
+    });
+    refresh();
+})();
+</script>
 @else
 <div class="bg-white rounded-xl shadow p-16 text-center">
     <div class="text-5xl mb-4">🌱</div>

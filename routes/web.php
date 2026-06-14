@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\GaleriAdminController;
 use App\Http\Controllers\Admin\AgendaAdminController;
 use App\Http\Controllers\Admin\RtAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\Admin\BarcodeController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\AgendaController;
@@ -63,6 +64,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Profil RW
         Route::get('/profil', [RwProfileController::class, 'edit'])->name('profil.edit');
         Route::post('/profil', [RwProfileController::class, 'update'])->name('profil.update');
+
+        // Cetak barcode (QR Code) siap print
+        Route::prefix('barcode')->name('barcode.')->group(function () {
+            Route::get('/tanaman', [BarcodeController::class, 'tanaman'])->name('tanaman');
+            Route::get('/umkm', [BarcodeController::class, 'umkm'])->name('umkm');
+            Route::get('/rw', [BarcodeController::class, 'rw'])->name('rw');
+        });
 
         // Daftar RT
         Route::prefix('rt')->name('rt.')->group(function () {
