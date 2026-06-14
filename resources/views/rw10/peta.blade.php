@@ -190,9 +190,9 @@
 
                 <p style="color:rgba(209,250,229,0.65);font-size:0.9rem;margin:0 0 1.5rem;max-width:32rem;line-height:1.7;">
                     @if($rw)
-                        Sebaran tanaman dan UMKM warga RW {{ $rw }}. Klik marker untuk melihat detail.
+                        Sebaran tanaman dan UMKM warga RW {{ $rw }}. Klik marker untuk melihat detail & arah lokasi.
                     @else
-                        Sebaran tanaman dan UMKM seluruh warga Kelurahan Mojo 2. Klik marker untuk melihat detail.
+                        Sebaran tanaman dan UMKM seluruh warga Kelurahan Mojo 2. Klik marker untuk melihat detail & arah lokasi.
                     @endif
                 </p>
 
@@ -269,6 +269,9 @@
     const defaultLat = allPoints.length ? allPoints[0].lat : -7.2575;
     const defaultLng = allPoints.length ? allPoints[0].lng : 112.7521;
 
+    // Link "petunjuk arah" Google Maps: buka rute dari lokasi pengguna ke titik.
+    const gmapsUrl = (lat, lng) => `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+
     const map = L.map('map').setView([defaultLat, defaultLng], 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -295,10 +298,16 @@
         L.marker([p.lat, p.lng], { icon: plantIcon })
             .addTo(map)
             .bindPopup(`
-                <div style="min-width:160px;">
+                <div style="min-width:175px;">
                     <h4>🌿 ${p.nama}</h4>
                     <p>${p.jenis || ''}</p>
-                    <a href="${p.url}" style="color:#2d6a4f;font-weight:700;">Lihat detail →</a>
+                    <div style="display:flex;flex-direction:column;gap:7px;margin-top:2px;">
+                        <a href="${p.url}" style="color:#2d6a4f;font-weight:700;">Lihat detail →</a>
+                        <a href="${gmapsUrl(p.lat, p.lng)}" target="_blank" rel="noopener"
+                           style="display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#2d6a4f;color:#fff;font-weight:700;padding:7px 10px;border-radius:8px;text-decoration:none;">
+                            🧭 Buka di Google Maps
+                        </a>
+                    </div>
                 </div>
             `);
     });
@@ -307,10 +316,16 @@
         L.marker([u.lat, u.lng], { icon: umkmIcon })
             .addTo(map)
             .bindPopup(`
-                <div style="min-width:160px;">
+                <div style="min-width:175px;">
                     <h4>🏪 ${u.nama}</h4>
                     <p>${u.jenis || ''}</p>
-                    <a href="${u.url}" style="color:#d97706;font-weight:700;">Lihat detail →</a>
+                    <div style="display:flex;flex-direction:column;gap:7px;margin-top:2px;">
+                        <a href="${u.url}" style="color:#d97706;font-weight:700;">Lihat detail →</a>
+                        <a href="${gmapsUrl(u.lat, u.lng)}" target="_blank" rel="noopener"
+                           style="display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#d97706;color:#fff;font-weight:700;padding:7px 10px;border-radius:8px;text-decoration:none;">
+                            🧭 Buka di Google Maps
+                        </a>
+                    </div>
                 </div>
             `);
     });
