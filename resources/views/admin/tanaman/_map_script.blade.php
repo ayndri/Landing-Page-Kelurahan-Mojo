@@ -11,6 +11,23 @@
 
     let marker;
 
+    // Pasang/pindahkan marker + sinkron ke input lat/lng.
+    function setMarker(lat, lng) {
+        document.getElementById('latitude').value = lat.toFixed(8);
+        document.getElementById('longitude').value = lng.toFixed(8);
+        if (marker) {
+            marker.setLatLng([lat, lng]);
+        } else {
+            marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+            marker.on('dragend', ev => {
+                const pos = ev.target.getLatLng();
+                document.getElementById('latitude').value = pos.lat.toFixed(8);
+                document.getElementById('longitude').value = pos.lng.toFixed(8);
+            });
+        }
+        return marker;
+    }
+
     if (document.getElementById('latitude').value) {
         marker = L.marker([parseFloat(initLat), parseFloat(initLng)], { draggable: true }).addTo(map);
         marker.on('dragend', e => {
@@ -93,6 +110,36 @@
             btn.textContent = origText;
             btn.disabled = false;
         }
+    }
+
+    // Ambil lokasi perangkat saat ini (butuh izin lokasi + HTTPS/localhost).
+    function gunakanLokasiSaatIni(btn) {
+        if (!('geolocation' in navigator)) {
+            alert('Perangkat/browser ini tidak mendukung deteksi lokasi.');
+            return;
+        }
+        const origHtml = btn ? btn.innerHTML : null;
+        if (btn) { btn.disabled = true; btn.textContent = 'Mendeteksi lokasi...'; }
+
+        navigator.geolocation.getCurrentPosition(
+            pos => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+                setMarker(lat, lng);
+                map.setView([lat, lng], 17);
+                marker.bindPopup('📍 Lokasi Anda saat ini').openPopup();
+                if (btn) { btn.disabled = false; btn.innerHTML = origHtml; }
+            },
+            err => {
+                let msg = 'Gagal mendeteksi lokasi.';
+                if (err.code === 1) msg = 'Akses lokasi ditolak. Izinkan akses lokasi di pengaturan browser, lalu coba lagi.';
+                else if (err.code === 2) msg = 'Lokasi tidak tersedia saat ini. Coba lagi atau gunakan pencarian alamat.';
+                else if (err.code === 3) msg = 'Deteksi lokasi terlalu lama. Coba lagi.';
+                alert(msg);
+                if (btn) { btn.disabled = false; btn.innerHTML = origHtml; }
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
     }
 </script>
 @endpush

@@ -62,7 +62,14 @@
             Cari Lokasi
         </button>
     </div>
-    <p class="text-xs text-gray-400 mb-2">Atau klik langsung pada peta untuk menentukan lokasi tanaman</p>
+    <div class="flex flex-wrap items-center gap-2 mb-2">
+        <button type="button" onclick="gunakanLokasiSaatIni(this)"
+            class="inline-flex items-center gap-1.5 border border-[#2d6a4f] text-[#2d6a4f] px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-[#2d6a4f] hover:text-white transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Gunakan Lokasi Saat Ini
+        </button>
+        <span class="text-xs text-gray-400">atau klik langsung pada peta untuk menentukan lokasi tanaman</span>
+    </div>
     <div id="map-picker"></div>
     <div class="grid grid-cols-2 gap-3 mt-3">
         <div>
