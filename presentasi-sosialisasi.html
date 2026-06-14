@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sosialisasi Website Kelurahan Mojo 2 · KKN NR 11</title>
+<style>
+  :root{
+    --green-900:#1e3a23;
+    --green-800:#274c2e;
+    --green-700:#2f5d38;
+    --green-600:#3a7244;
+    --green-500:#4c8c57;
+    --lime:#9ccb5b;
+    --lime-soft:#b6d97f;
+    --cream:#f4f7f1;
+    --paper:#ffffff;
+    --ink:#243027;
+    --muted:#6f8475;
+    --amber:#d8a430;
+    --rust:#b5491f;
+    --shadow:0 18px 50px -18px rgba(20,45,25,.45);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#0d1a10;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);overflow:hidden}
+
+  /* ---------- Deck shell ---------- */
+  #deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  .slide{
+    position:absolute;width:100vw;height:100vh;
+    display:none;flex-direction:column;
+    opacity:0;transform:scale(.985);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .slide.active{display:flex;opacity:1;transform:scale(1)}
+
+  /* header band */
+  .band{
+    background:linear-gradient(110deg,var(--green-800),var(--green-600));
+    color:#fff;padding:34px 60px;flex:0 0 auto;
+    box-shadow:0 6px 24px -10px rgba(0,0,0,.5);
+    position:relative;overflow:hidden;
+  }
+  .band::after{content:"";position:absolute;right:-60px;top:-80px;width:280px;height:280px;border-radius:50%;background:rgba(156,203,91,.16)}
+  .band .num{display:inline-block;font-weight:800;color:var(--lime);font-size:30px;margin-right:14px;vertical-align:middle}
+  .band h2{display:inline;font-size:30px;font-weight:800;letter-spacing:.3px}
+  .body{flex:1;padding:42px 60px;background:var(--cream);overflow:hidden;display:flex;flex-direction:column}
+
+  /* ---------- Title slide ---------- */
+  .title-slide{background:radial-gradient(120% 120% at 80% 10%,var(--green-700),var(--green-900) 70%);color:#fff;justify-content:center;padding:0 80px}
+  .title-slide .blob{position:absolute;border-radius:50%;background:rgba(156,203,91,.12)}
+  .b1{width:560px;height:560px;right:-120px;top:-160px}
+  .b2{width:340px;height:340px;right:120px;bottom:-120px;background:rgba(156,203,91,.08)}
+  .tag{display:inline-block;background:rgba(156,203,91,.22);border:1px solid rgba(156,203,91,.5);padding:10px 22px;border-radius:40px;font-weight:700;font-size:15px;letter-spacing:.5px;margin-bottom:30px}
+  .title-slide h1{font-size:78px;line-height:1.02;font-weight:800}
+  .title-slide h1 .accent{color:var(--lime)}
+  .title-slide p.sub{margin-top:24px;font-size:22px;color:#d7e6d2;max-width:680px;line-height:1.5}
+  .pills{display:flex;gap:14px;margin-top:46px;flex-wrap:wrap}
+  .pill{border:1.5px solid rgba(156,203,91,.55);border-radius:14px;padding:16px 26px;font-size:15px;color:#eaf3e4;font-weight:600}
+
+  /* ---------- Generic cards ---------- */
+  h3.section{color:var(--green-700);font-size:21px;margin-bottom:18px;font-weight:800}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:46px;flex:1}
+  .col{display:flex;flex-direction:column;gap:14px}
+  .line{padding:16px 22px;border-radius:14px;font-size:17px;display:flex;align-items:center;gap:12px;line-height:1.35}
+  .line.bad{background:#fdecec;color:#9c3030;border:1px solid #f6d4d4}
+  .line.good{background:#eaf5ea;color:#2f6b39;border:1px solid #cfe7cf}
+  .line .ic{font-weight:800;font-size:18px}
+
+  /* agenda grid */
+  .agenda{display:grid;grid-template-columns:1fr 1fr;gap:26px;flex:1;align-content:center}
+  .agenda-item{background:#fff;border-radius:18px;padding:26px 28px;display:flex;gap:22px;align-items:center;box-shadow:var(--shadow)}
+  .agenda-item .n{flex:0 0 auto;width:58px;height:58px;border-radius:50%;background:var(--green-700);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+  .agenda-item h4{font-size:20px;margin-bottom:4px}
+  .agenda-item p{color:var(--muted);font-size:15px}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;flex:1;align-content:center}
+  .stat{background:#fff;border-radius:18px;padding:34px 26px;text-align:center;box-shadow:var(--shadow)}
+  .stat .big{font-size:62px;font-weight:800;line-height:1;color:var(--green-600)}
+  .stat .lbl{margin-top:12px;font-size:17px;font-weight:600;color:var(--ink)}
+  .note{margin-top:26px;text-align:center;background:#eaf5ea;color:var(--green-700);padding:16px;border-radius:14px;font-weight:700}
+
+  /* feature grid */
+  .features{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;flex:1;align-content:center}
+  .feat{border-radius:18px;padding:26px 22px;box-shadow:var(--shadow);background:#fff}
+  .feat .emo{font-size:34px;margin-bottom:10px}
+  .feat h4{font-size:18px;margin-bottom:8px;color:var(--green-700)}
+  .feat p{font-size:14px;color:var(--muted);line-height:1.45}
+
+  /* mock + list layout */
+  .mock-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:46px;flex:1;align-items:center}
+  .mock{border-radius:16px;background:linear-gradient(160deg,var(--green-800),var(--green-600));box-shadow:var(--shadow);padding:22px;color:#fff;min-height:330px;position:relative;overflow:hidden}
+  .mock .browser{display:flex;gap:6px;margin-bottom:14px}
+  .mock .browser span{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.5)}
+  .mock .skel{background:rgba(255,255,255,.16);border-radius:8px;height:14px;margin:9px 0}
+  .mock .skel.w70{width:70%}.mock .skel.w50{width:50%}.mock .skel.w90{width:90%}.mock .skel.big{height:60px;margin:16px 0}
+  .mock .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+  .mock .grid4 div{background:rgba(255,255,255,.14);border-radius:8px;height:48px}
+  .mock-caption{text-align:center;color:var(--green-700);font-weight:700;margin-top:12px;font-size:14px}
+
+  /* real screenshots in browser frame */
+  .shot{border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:#fff;border:1px solid #dde7dc}
+  .shot .bar{background:#e8efe6;padding:9px 12px;display:flex;gap:7px;align-items:center;border-bottom:1px solid #d7e2d5}
+  .shot .bar i{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .shot .bar .d1{background:#e6685c}.shot .bar .d2{background:#f0b429}.shot .bar .d3{background:#3ec46d}
+  .shot .bar .url{margin-left:8px;background:#fff;border-radius:7px;font-size:11px;color:#7a8b7c;padding:4px 12px;flex:1;border:1px solid #dde7dc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .shot .frame{height:330px;overflow:hidden;background:#0d1a10}
+  .shot .frame img{width:100%;display:block}
+  .shot.tall .frame{height:360px}
+  .info-list{display:flex;flex-direction:column;gap:12px}
+  .info-list .row{background:#fff;border-radius:14px;padding:15px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 8px 22px -16px rgba(20,45,25,.5)}
+  .info-list .row .k{flex:0 0 auto;font-weight:700;color:var(--green-700);min-width:150px;display:flex;align-items:center;gap:8px}
+  .info-list .row .v{color:var(--muted);font-size:15px}
+
+  /* three panel */
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;flex:1;align-content:center}
+  .panel{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+  .panel .head{padding:18px 20px;color:#fff;font-weight:700;font-size:18px}
+  .panel .desc{padding:18px 20px;color:var(--muted);font-size:15px;line-height:1.5}
+
+  .footer-note{margin-top:24px;background:#eaf5ea;border:1px solid #cfe7cf;border-radius:14px;padding:18px 22px;font-size:15px;color:var(--green-800);line-height:1.5}
+  .footer-note b{color:var(--green-700)}
+
+  /* roles */
+  .roles{display:flex;flex-direction:column;gap:16px;justify-content:center}
+  .role{border-radius:16px;padding:22px 26px}
+  .role h4{font-size:19px;margin-bottom:6px}
+  .role.r1{background:#eef4ec}.role.r2{background:#e3efe1}.role.r3{background:var(--green-800);color:#fff}
+  .role p{font-size:15px;color:inherit;opacity:.85}
+
+  /* steps */
+  .steps-head{padding:18px;border-radius:14px 14px 0 0;color:#fff;font-weight:800;text-align:center;font-size:19px}
+  .step{background:#fff;padding:15px 20px;border-radius:12px;margin-bottom:10px;font-size:16px;box-shadow:0 8px 20px -16px rgba(20,45,25,.5)}
+
+  /* keberlanjutan */
+  .susgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;flex:1;align-content:center}
+  .sus{background:#fff;border-radius:16px;padding:24px 26px;display:flex;gap:20px;align-items:flex-start;box-shadow:var(--shadow)}
+  .sus .emo{font-size:32px}
+  .sus h4{color:var(--green-700);font-size:18px;margin-bottom:5px}
+  .sus p{color:var(--muted);font-size:14px;line-height:1.45}
+  .intro-line{font-style:italic;color:var(--green-700);font-size:18px;margin-bottom:24px}
+
+  /* thanks */
+  .thanks{background:radial-gradient(120% 120% at 75% 15%,var(--green-700),var(--green-900) 70%);color:#fff;justify-content:center;align-items:center;text-align:center;padding:0 60px}
+  .thanks h1{font-size:90px;font-weight:800}
+  .thanks p.sub{font-size:22px;color:#d7e6d2;margin-top:18px;max-width:680px;line-height:1.5}
+  .thanks .cards{display:flex;gap:22px;margin-top:48px}
+  .thanks .tc{border:1.5px solid rgba(156,203,91,.5);border-radius:16px;padding:26px 34px;min-width:230px}
+  .thanks .tc .emo{font-size:34px}
+  .thanks .tc h4{margin:12px 0 6px;font-size:18px}
+  .thanks .tc p{color:#cfe0c8;font-size:15px}
+  .thanks .qa{margin-top:40px;background:rgba(156,203,91,.28);border-radius:14px;padding:18px 40px;font-weight:700;font-size:19px}
+  .thanks .credit{margin-top:34px;color:#9fb89a;font-size:14px}
+
+  /* ---------- entrance animations ---------- */
+  .anim{opacity:0;transform:translateY(26px);}
+  .slide.active .anim{animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  .slide.active .anim.pop{animation:pop .55s cubic-bezier(.2,.8,.3,1.2) forwards}
+  @keyframes pop{0%{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+  .slide.active .anim.left{transform:translateX(-30px)}
+  .slide.active .anim.left{animation:slideX .6s ease forwards}
+  @keyframes slideX{to{opacity:1;transform:translateX(0)}}
+
+  .countup{display:inline-block}
+
+  /* ---------- controls ---------- */
+  #bar{position:fixed;bottom:0;left:0;right:0;height:5px;background:rgba(255,255,255,.12);z-index:50}
+  #bar #fill{height:100%;width:0;background:linear-gradient(90deg,var(--lime),var(--green-500));transition:width .4s ease}
+  #ctrl{position:fixed;bottom:18px;right:24px;display:flex;gap:10px;align-items:center;z-index:60}
+  #ctrl button{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:18px;backdrop-filter:blur(6px);transition:.2s}
+  #ctrl button:hover{background:var(--lime);color:var(--green-900);transform:translateY(-2px)}
+  #counter{position:fixed;bottom:24px;left:24px;color:rgba(255,255,255,.75);font-size:14px;font-weight:600;z-index:60;letter-spacing:1px}
+  #hint{position:fixed;top:18px;right:24px;color:rgba(255,255,255,.55);font-size:12px;z-index:60}
+  @media (max-width:760px){
+    .two-col,.agenda,.mock-layout,.susgrid{grid-template-columns:1fr}
+    .stats,.features{grid-template-columns:repeat(2,1fr)}
+    .three{grid-template-columns:1fr}
+    .title-slide h1{font-size:46px}.thanks h1{font-size:54px}
+    .band,.body{padding:22px}
+  }
+</style>
+</head>
+<body>
+<div id="deck">
+
+  <!-- 1 TITLE -->
+  <section class="slide title-slide active">
+    <div class="blob b1"></div><div class="blob b2"></div>
+    <div class="tag anim">Paparan Program Kerja · KKN NR 11</div>
+    <h1 class="anim" style="animation-delay:.1s">Website Profil<br><span class="accent">Kelurahan Mojo 2</span></h1>
+    <p class="sub anim" style="animation-delay:.25s">Portal Digital Terpadu untuk Profil Warga, Lingkungan, Ekonomi, dan Informasi Kelurahan</p>
+    <div class="pills">
+      <div class="pill anim" style="animation-delay:.4s">🌐 kelurahan-mojo.com</div>
+      <div class="pill anim" style="animation-delay:.5s">🏘️ RW 9, 10, 11, 12, 13</div>
+      <div class="pill anim" style="animation-delay:.6s">📍 Kec. Gubeng, Surabaya</div>
+      <div class="pill anim" style="animation-delay:.7s">🎓 UNTAG Surabaya · 2026</div>
+    </div>
+  </section>
+
+  <!-- 2 AGENDA -->
+  <section class="slide">
+    <div class="band"><span class="num">·</span><h2>Agenda Presentasi Hari Ini</h2></div>
+    <div class="body">
+      <div class="agenda">
+        <div class="agenda-item anim"><div class="n">01</div><div><h4>Latar Belakang</h4><p>Mengapa Kelurahan Mojo 2 butuh website?</p></div></div>
+        <div class="agenda-item anim" style="animation-delay:.1s"><div class="n">02</div><div><h4>Tentang Website</h4><p>Portal digital terpadu kelurahan-mojo.com</p></div></div>
+        <div class="agenda-item anim" style="animation-delay:.2s"><div class="n">03</div><div><h4>Pilar Profil & Lingkungan</h4><p>Profil RW, Bio Pengurus, Tanaman & TOGA</p></div></div>
+        <div class="agenda-item anim" style="animation-delay:.3s"><div class="n">04</div><div><h4>Pilar Ekonomi & Informasi</h4><p>UMKM, Pengumuman, Agenda, Galeri</p></div></div>
+        <div class="agenda-item anim" style="animation-delay:.4s"><div class="n">05</div><div><h4>Peta & Teknologi</h4><p>Peta Interaktif, QR Code, Kontak & Layanan</p></div></div>
+        <div class="agenda-item anim" style="animation-delay:.5s"><div class="n">06</div><div><h4>Cara Pakai & Keberlanjutan</h4><p>Panduan warga, admin, serah terima</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 LATAR BELAKANG -->
+  <section class="slide">
+    <div class="band"><span class="num">01</span><h2>Latar Belakang</h2></div>
+    <div class="body">
+      <div class="two-col">
+        <div class="col">
+          <h3 class="section anim" style="color:var(--rust)">Kondisi Sebelumnya</h3>
+          <div class="line bad anim" style="animation-delay:.05s"><span class="ic">✗</span> Profil RW (ketua, visi-misi, data KK) hanya di papan fisik</div>
+          <div class="line bad anim" style="animation-delay:.1s"><span class="ic">✗</span> Potensi tanaman & TOGA warga tidak terdokumentasi</div>
+          <div class="line bad anim" style="animation-delay:.15s"><span class="ic">✗</span> UMKM belum terpromosikan secara digital</div>
+          <div class="line bad anim" style="animation-delay:.2s"><span class="ic">✗</span> Pengumuman hanya via surat & grup WA, sering terlewat</div>
+          <div class="line bad anim" style="animation-delay:.25s"><span class="ic">✗</span> Layanan administrasi tidak ada panduan online</div>
+        </div>
+        <div class="col">
+          <h3 class="section anim">Solusi: Website Profil Digital</h3>
+          <div class="line good anim" style="animation-delay:.3s"><span class="ic">✓</span> Profil digital per-RW lengkap dengan pengurus</div>
+          <div class="line good anim" style="animation-delay:.35s"><span class="ic">✓</span> Direktori tanaman + foto + peta + QR Code</div>
+          <div class="line good anim" style="animation-delay:.4s"><span class="ic">✓</span> Direktori UMKM + produk + order via WhatsApp</div>
+          <div class="line good anim" style="animation-delay:.45s"><span class="ic">✓</span> Pengumuman & agenda digital terkelola resmi</div>
+          <div class="line good anim" style="animation-delay:.5s"><span class="ic">✓</span> Info kontak & layanan administrasi kelurahan</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 TENTANG -->
+  <section class="slide">
+    <div class="band"><span class="num">02</span><h2>Tentang Website kelurahan-mojo.com</h2></div>
+    <div class="body">
+      <div class="mock-layout">
+        <div class="anim left">
+          <div class="shot tall"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com</span></div><div class="frame" style="height:380px"><img src="docs/screenshots/01-beranda.png" alt="Beranda"></div></div>
+        </div>
+        <div class="stats" style="grid-template-columns:1fr 1fr">
+          <div class="stat anim pop"><div class="big"><span class="countup" data-to="5">0</span></div><div class="lbl">RW Tercakup</div></div>
+          <div class="stat anim pop" style="animation-delay:.12s"><div class="big" style="color:var(--lime)"><span class="countup" data-to="22">0</span></div><div class="lbl">Tanaman Terdaftar</div></div>
+          <div class="stat anim pop" style="animation-delay:.24s"><div class="big" style="color:var(--amber)"><span class="countup" data-to="4">0</span></div><div class="lbl">UMKM Terdaftar</div></div>
+          <div class="stat anim pop" style="animation-delay:.36s"><div class="big" style="color:var(--green-700)"><span class="countup" data-to="12">0</span></div><div class="lbl">Halaman Fitur</div></div>
+        </div>
+      </div>
+      <div class="note anim" style="animation-delay:.5s">Gratis · Tanpa login · Bisa diakses di HP dan laptop</div>
+    </div>
+  </section>
+
+  <!-- 5 SEMUA FITUR -->
+  <section class="slide">
+    <div class="band"><span class="num">·</span><h2>Semua Fitur Website dalam Satu Pandangan</h2></div>
+    <div class="body">
+      <div class="features">
+        <div class="feat anim pop" style="background:#eaf5ea"><div class="emo">🏛️</div><h4>Profil RW</h4><p>Bio ketua, visi-misi, data KK & penduduk, struktur pengurus, daftar RT</p></div>
+        <div class="feat anim pop" style="background:#eef6e8;animation-delay:.08s"><div class="emo">🌿</div><h4>Tanaman & TOGA</h4><p>Direktori tanaman warga + foto, manfaat, lokasi peta, QR Code</p></div>
+        <div class="feat anim pop" style="background:#fdf3dc;animation-delay:.16s"><div class="emo">🛒</div><h4>Direktori UMKM</h4><p>Profil usaha, produk, harga, kontak WA/IG/Shopee, QR Code</p></div>
+        <div class="feat anim pop" style="background:#e4eefb;animation-delay:.24s"><div class="emo">🗺️</div><h4>Peta Interaktif</h4><p>Sebaran tanaman & UMKM se-kelurahan atau per-RW di OpenStreetMap</p></div>
+        <div class="feat anim pop" style="background:#fdeede;animation-delay:.32s"><div class="emo">📢</div><h4>Pengumuman</h4><p>Info resmi: kesehatan, kegiatan, administrasi, dengan tag kategori</p></div>
+        <div class="feat anim pop" style="background:#e2f1ef;animation-delay:.4s"><div class="emo">📅</div><h4>Agenda Kegiatan</h4><p>Jadwal acara warga: posyandu, kerja bakti, rapat, bazar</p></div>
+        <div class="feat anim pop" style="background:#f3e8f5;animation-delay:.48s"><div class="emo">📸</div><h4>Galeri Foto</h4><p>Dokumentasi kegiatan: Lingkungan, Sosial, Rapat, Kegiatan</p></div>
+        <div class="feat anim pop" style="background:#eef0ee;animation-delay:.56s"><div class="emo">📞</div><h4>Kontak & Layanan</h4><p>Info kantor, jam operasional, kontak ketua RW, layanan surat</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 PROFIL RW -->
+  <section class="slide">
+    <div class="band"><span class="num">03</span><h2>Profil RW — Identitas Digital Setiap RW</h2></div>
+    <div class="body">
+      <div class="mock-layout">
+        <div class="anim left">
+          <div class="shot">
+            <div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com/rw/10</span></div>
+            <div class="frame"><img src="docs/screenshots/02-profil-rw.png" alt="Profil RW"></div>
+          </div>
+          <div class="mock-caption">Halaman Profil RW 10</div>
+        </div>
+        <div class="info-list">
+          <div class="row anim" style="animation-delay:.1s"><span class="k">👤 Bio Ketua RW</span><span class="v">Foto, nama, dan jabatan ketua RW</span></div>
+          <div class="row anim" style="animation-delay:.18s"><span class="k">🎯 Visi & Misi</span><span class="v">Arah dan tujuan pembangunan RW</span></div>
+          <div class="row anim" style="animation-delay:.26s"><span class="k">📊 Data Statistik</span><span class="v">Jumlah Kepala Keluarga & penduduk</span></div>
+          <div class="row anim" style="animation-delay:.34s"><span class="k">🏢 Struktur Pengurus</span><span class="v">Ketua, Sekretaris, Bendahara</span></div>
+          <div class="row anim" style="animation-delay:.42s"><span class="k">📋 Daftar RT</span><span class="v">Semua RT di bawah RW tercatat</span></div>
+          <div class="row anim" style="animation-delay:.5s"><span class="k">🌿 Potensi Wilayah</span><span class="v">Link ke Tanaman, UMKM, Peta</span></div>
+        </div>
+      </div>
+      <div class="note anim" style="animation-delay:.6s">Tersedia untuk RW 9 · 10 · 11 · 12 · 13</div>
+    </div>
+  </section>
+
+  <!-- 7 TANAMAN -->
+  <section class="slide">
+    <div class="band"><span class="num">03</span><h2>Tanaman & TOGA — Potensi Lingkungan Warga</h2></div>
+    <div class="body">
+      <div class="mock-layout">
+        <div class="anim left">
+          <div class="shot">
+            <div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com/tanaman</span></div>
+            <div class="frame"><img src="docs/screenshots/03-tanaman-index.png" alt="Daftar Tanaman"></div>
+          </div>
+          <div class="mock-caption">Daftar Tanaman + Detail + QR Code + Lokasi Peta</div>
+        </div>
+        <div class="col">
+          <h3 class="section anim">Apa yang Ada di Direktori Tanaman?</h3>
+          <div class="line good anim" style="animation-delay:.12s">📸 Foto tanaman berkualitas dari warga</div>
+          <div class="line good anim" style="animation-delay:.2s">📝 Nama, jenis, deskripsi, dan manfaat tanaman</div>
+          <div class="line good anim" style="animation-delay:.28s">📍 Lokasi tepat pada peta per-RW</div>
+          <div class="line good anim" style="animation-delay:.36s">📱 QR Code untuk akses cepat info tanaman</div>
+          <div class="line good anim" style="animation-delay:.44s">🔍 Filter berdasarkan RW pemilik</div>
+          <div class="line good anim" style="animation-delay:.52s">🌱 Mendukung dokumentasi TOGA & penghijauan</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 UMKM -->
+  <section class="slide">
+    <div class="band"><span class="num">04</span><h2>Direktori UMKM — Ekonomi Digital Warga</h2></div>
+    <div class="body">
+      <div class="mock-layout">
+        <div class="anim left">
+          <div class="shot">
+            <div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com/umkm</span></div>
+            <div class="frame"><img src="docs/screenshots/05-umkm-publik.png" alt="Daftar UMKM"></div>
+          </div>
+          <div class="mock-caption">Halaman Daftar UMKM Warga</div>
+        </div>
+        <div class="col">
+          <h3 class="section anim">Fitur UMKM di Website</h3>
+          <div class="line anim" style="background:#fdf3dc;color:#8a5a12;animation-delay:.1s">🏪 Profil usaha: nama, deskripsi, kategori</div>
+          <div class="line anim" style="background:#fdf3dc;color:#8a5a12;animation-delay:.16s">📦 Daftar produk lengkap dengan harga</div>
+          <div class="line anim" style="background:#fdf3dc;color:#8a5a12;animation-delay:.22s">💬 Tombol Order via WhatsApp langsung</div>
+          <div class="line anim" style="background:#fdf3dc;color:#8a5a12;animation-delay:.28s">📷 Foto produk & foto usaha · 📍 Lokasi di peta</div>
+          <div class="line anim" style="background:#fdf3dc;color:#8a5a12;animation-delay:.34s">📱 QR Code · 🔗 Link Instagram & Shopee</div>
+          <div class="line good anim" style="background:var(--green-700);color:#fff;animation-delay:.42s">Pembeli klik WhatsApp → langsung pesan ke pemilik UMKM</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 PENGUMUMAN AGENDA GALERI -->
+  <section class="slide">
+    <div class="band"><span class="num">04</span><h2>Pengumuman, Agenda & Galeri Foto</h2></div>
+    <div class="body">
+      <div class="three">
+        <div class="anim pop">
+          <div class="shot"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i></div><div class="frame" style="height:240px"><img src="docs/screenshots/08-pengumuman.png" alt="Pengumuman"></div></div>
+          <div class="mock-caption">📢 Pengumuman Resmi</div>
+        </div>
+        <div class="anim pop" style="animation-delay:.12s">
+          <div class="shot"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i></div><div class="frame" style="height:240px"><img src="docs/screenshots/10-agenda.png" alt="Agenda"></div></div>
+          <div class="mock-caption">📅 Agenda Kegiatan</div>
+        </div>
+        <div class="anim pop" style="animation-delay:.24s">
+          <div class="shot"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i></div><div class="frame" style="height:240px"><img src="docs/screenshots/09-galeri.png" alt="Galeri"></div></div>
+          <div class="mock-caption">📸 Galeri Foto</div>
+        </div>
+      </div>
+      <div class="footer-note anim" style="animation-delay:.4s"><b>Contoh pengumuman nyata di website:</b> Peringatan Wabah Demam Berdarah · Bazar UMKM Warga · Jadwal Bansos Triwulan · Rapat Koordinasi RT · Kerja Bakti Massal · Posyandu Balita & Lansia · Pemutakhiran Data Kependudukan · Pembayaran Iuran Kebersihan</div>
+    </div>
+  </section>
+
+  <!-- 10 PETA & KONTAK -->
+  <section class="slide">
+    <div class="band"><span class="num">05</span><h2>Peta Interaktif & Kontak Layanan</h2></div>
+    <div class="body">
+      <div class="two-col">
+        <div class="anim left">
+          <div class="shot"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com/peta</span></div><div class="frame"><img src="docs/screenshots/07-peta.png" alt="Peta"></div></div>
+          <div class="mock-caption">Peta Interaktif — Tanaman & UMKM se-Kelurahan</div>
+        </div>
+        <div class="anim left" style="animation-delay:.15s">
+          <div class="shot"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com/kontak</span></div><div class="frame"><img src="docs/screenshots/11-kontak.png" alt="Kontak"></div></div>
+          <div class="mock-caption">Kontak Kantor, Ketua RW & Layanan Surat</div>
+        </div>
+      </div>
+      <div class="footer-note anim" style="animation-delay:.4s"><b>Layanan Administrasi Surat:</b> Surat Keterangan Domisili · SKTM · Surat Pengantar Nikah · SKU · Surat Kelahiran · Surat Kematian · Pengantar KTP/KK · Surat Keterangan Pindah</div>
+    </div>
+  </section>
+
+  <!-- 11 QR CODE -->
+  <section class="slide">
+    <div class="band"><span class="num">05</span><h2>QR Code — Akses Cepat Tanpa Ketik URL</h2></div>
+    <div class="body">
+      <div class="two-col">
+        <div class="anim pop">
+          <div class="shot"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com/tanaman/anggur-hijau</span></div><div class="frame"><img src="docs/screenshots/04-tanaman-detail.png" alt="Detail Tanaman + QR"></div></div>
+          <div class="mock-caption">QR Code pada Detail Tanaman</div>
+        </div>
+        <div class="anim pop" style="animation-delay:.15s">
+          <div class="shot"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com/umkm/warung-bu-sari</span></div><div class="frame"><img src="docs/screenshots/06-umkm-detail-publik.png" alt="Detail UMKM + QR"></div></div>
+          <div class="mock-caption">QR Code pada Detail UMKM</div>
+        </div>
+      </div>
+      <div class="note anim" style="animation-delay:.4s">📱 Scan = Langsung Buka Profil Digital — QR bisa dicetak di kemasan produk, papan informasi taman, atau brosur RW</div>
+    </div>
+  </section>
+
+  <!-- 12 PANEL ADMIN -->
+  <section class="slide">
+    <div class="band"><span class="num">06</span><h2>Panel Admin — Kelola Data Mandiri per RW</h2></div>
+    <div class="body">
+      <div class="mock-layout">
+        <div class="anim left">
+          <div class="shot"><div class="bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="url">kelurahan-mojo.com/admin/dashboard</span></div><div class="frame"><img src="docs/screenshots/13-admin-dashboard.png" alt="Dashboard Admin"></div></div>
+          <div class="mock-caption">Dashboard Admin — Statistik & Aksi Cepat</div>
+        </div>
+        <div class="roles">
+          <div class="role r1 anim" style="animation-delay:.1s"><h4>👥 Masyarakat</h4><p>Akses semua halaman · Tanpa login</p></div>
+          <div class="role r2 anim" style="animation-delay:.2s"><h4>🧑‍💼 Admin RW</h4><p>Kelola data RW sendiri · Login per-RW</p></div>
+          <div class="role r3 anim" style="animation-delay:.3s"><h4>⭐ Super Admin</h4><p>Akses semua RW · Kelola akun</p></div>
+        </div>
+      </div>
+      <div class="note anim" style="animation-delay:.45s">Menu: Profil RW · RT · Tanaman · UMKM · Galeri · Pengumuman · Agenda · Pengguna</div>
+    </div>
+  </section>
+
+  <!-- 13 CARA PAKAI -->
+  <section class="slide">
+    <div class="band"><span class="num">06</span><h2>Cara Menggunakan Website</h2></div>
+    <div class="body">
+      <div class="two-col">
+        <div class="anim left">
+          <div class="steps-head" style="background:var(--green-700)">Untuk Warga</div>
+          <div style="background:#eef4ec;padding:16px;border-radius:0 0 14px 14px">
+            <div class="step">1. Buka kelurahan-mojo.com di HP / laptop</div>
+            <div class="step">2. Pilih RW Anda → lihat profil & potensi</div>
+            <div class="step">3. Jelajahi Tanaman, UMKM, atau Peta</div>
+            <div class="step">4. Baca Pengumuman & cek Agenda Kegiatan</div>
+            <div class="step">5. Pesan produk UMKM via tombol WhatsApp</div>
+            <div class="step">6. Scan QR Code di taman / kemasan produk</div>
+            <div class="step" style="margin-bottom:0">7. Cek syarat layanan surat di halaman Kontak</div>
+          </div>
+        </div>
+        <div class="anim left" style="animation-delay:.15s">
+          <div class="steps-head" style="background:var(--green-500)">Untuk Admin RW</div>
+          <div style="background:#e7f1e5;padding:16px;border-radius:0 0 14px 14px">
+            <div class="step">1. Buka kelurahan-mojo.com/admin/login</div>
+            <div class="step">2. Masukkan email & password akun RW</div>
+            <div class="step">3. Dashboard: lihat statistik data RW</div>
+            <div class="step">4. Tambah / edit Tanaman, UMKM, Galeri</div>
+            <div class="step">5. Buat Pengumuman & Agenda baru</div>
+            <div class="step">6. Edit Profil RW, Struktur Pengurus</div>
+            <div class="step" style="margin-bottom:0">7. Pilih lokasi tanaman/UMKM di peta klik</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 KEBERLANJUTAN -->
+  <section class="slide">
+    <div class="band"><span class="num">06</span><h2>Keberlanjutan Setelah KKN Selesai</h2></div>
+    <div class="body">
+      <p class="intro-line anim">Website diserahkan kepada Pemerintah Kelurahan Mojo 2 beserta seluruh akun admin.</p>
+      <div class="susgrid">
+        <div class="sus anim"><div class="emo">🔑</div><div><h4>Ganti Password</h4><p>Semua akun admin wajib ganti password bawaan</p></div></div>
+        <div class="sus anim" style="animation-delay:.1s"><div class="emo">📝</div><div><h4>Update Berkala</h4><p>Data tanaman, UMKM, pengumuman, agenda diperbarui sesuai kebutuhan</p></div></div>
+        <div class="sus anim" style="animation-delay:.2s"><div class="emo">💾</div><div><h4>Backup Rutin</h4><p>Backup database dan folder foto secara berkala</p></div></div>
+        <div class="sus anim" style="animation-delay:.3s"><div class="emo">👨‍💼</div><div><h4>Tunjuk PJ per-RW</h4><p>Satu admin per-RW bertanggung jawab atas data</p></div></div>
+        <div class="sus anim" style="animation-delay:.4s"><div class="emo">🌐</div><div><h4>Hosting Aktif</h4><p>Perpanjang domain kelurahan-mojo.com dan hosting setiap tahun</p></div></div>
+        <div class="sus anim" style="animation-delay:.5s"><div class="emo">📚</div><div><h4>Manual Book</h4><p>Buku panduan lengkap sudah diserahkan ke kelurahan dan LPPM</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 THANKS -->
+  <section class="slide thanks">
+    <div class="title-slide blob b1" style="position:absolute"></div>
+    <h1 class="anim pop">Terima Kasih!</h1>
+    <p class="sub anim" style="animation-delay:.15s">Website Profil Kelurahan Mojo 2 siap digunakan oleh seluruh warga RW 9, 10, 11, 12, dan 13.</p>
+    <div class="cards">
+      <div class="tc anim" style="animation-delay:.25s"><div class="emo">🌐</div><h4>Kunjungi Website</h4><p>kelurahan-mojo.com</p></div>
+      <div class="tc anim" style="animation-delay:.35s"><div class="emo">📲</div><h4>Scan QR Code</h4><p>Tersedia di kantor RW & taman</p></div>
+      <div class="tc anim" style="animation-delay:.45s"><div class="emo">💬</div><h4>Hubungi Tim KKN</h4><p>KKN NR 11 siap membantu</p></div>
+    </div>
+    <div class="qa anim" style="animation-delay:.55s">Sesi Tanya Jawab — Silakan bertanya!</div>
+    <div class="credit anim" style="animation-delay:.65s">KKN Non Reguler 11 · Universitas 17 Agustus 1945 Surabaya · 2026</div>
+  </section>
+
+</div>
+
+<div id="bar"><div id="fill"></div></div>
+<div id="counter">01 / 15</div>
+<div id="hint">← → / Spasi · F layar penuh</div>
+<div id="ctrl">
+  <button id="prev" title="Sebelumnya">‹</button>
+  <button id="full" title="Layar penuh">⛶</button>
+  <button id="next" title="Berikutnya">›</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  const fill=document.getElementById('fill');
+  const counter=document.getElementById('counter');
+
+  function runCounters(slide){
+    slide.querySelectorAll('.countup').forEach(el=>{
+      const to=+el.dataset.to; let cur=0;
+      const step=Math.max(1,Math.round(to/30));
+      const t=setInterval(()=>{cur+=step;if(cur>=to){cur=to;clearInterval(t)}el.textContent=cur},28);
+    });
+  }
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    fill.style.width=((i+1)/slides.length*100)+'%';
+    counter.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+    runCounters(slides[i]);
+  }
+  function next(){show(i+1)} function prev(){show(i-1)}
+  document.getElementById('next').onclick=next;
+  document.getElementById('prev').onclick=prev;
+  document.getElementById('full').onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()};
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();next()}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();prev()}
+    else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
+    else if(e.key.toLowerCase()==='f')document.getElementById('full').click();
+  });
+  // swipe
+  let sx=0;
+  document.addEventListener('touchstart',e=>sx=e.touches[0].clientX);
+  document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)d<0?next():prev()});
+  show(0);
+</script>
+</body>
+</html>
